@@ -7,11 +7,11 @@ vue+nodejs+express+mysql 包含前端代码和后端代码
 ### 前端代码
 
 ```shell
-  front-end
+  front-end (vue框架)
  ```
  
  ### 后端代码
  
  ```shell
-   back-end
+   back-end(node+express+mysql)
  ```
