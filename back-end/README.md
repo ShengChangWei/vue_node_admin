@@ -85,7 +85,6 @@
             "id":7,
             "title":"测试",
             "content":"当我的",
-            "categoryId":null,
             "userId":102,
             "createdAt":"2018-03-29T05:42:39.000Z",
             "updatedAt":"2019-05-02T08:35:05.000Z"
@@ -94,7 +93,6 @@
             "id":11,
             "title":"测试2",
             "content":"123让让他后台",
-            "categoryId":null,
             "userId":102,
             "createdAt":"2018-03-29T12:43:46.000Z",
             "updatedAt":"2019-05-02T08:35:13.000Z"
