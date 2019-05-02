@@ -70,11 +70,9 @@ export default {
     };
   },
   created: function() {
-    console.log(this.$store.state.currUserMenus)
     this.curMenu = this.$store.state.currUserMenus
       // ? this.$store.state.currUserMenus
       // : this.curMenu;
-      console.log(this.$route.path)
   },
   methods: {
     toPath(path) {

@@ -1,7 +1,7 @@
 <template>
   <div class="login-container" @keyup.enter.native="handleLogin">
     <el-form class="login-form" autoComplete="on" :model="loginForm" :rules="loginRules" ref="loginForm" label-position="left">
-      <h3 class="title">essence</h3>
+      <h3 class="title">vue_node_admin</h3>
       <el-form-item prop="username">
         <span class="fontcontainer">
           <span class="fa fa-user-o"></span>
@@ -52,7 +52,7 @@ export default {
     return {
       loginForm: {
         username: "admin",
-        password: "1"
+        password: "123"
       },
       loginRules: {
         username: [
@@ -84,11 +84,17 @@ export default {
             username: this.loginForm.username,
             password: md5(this.loginForm.password)
           };
-          loginService.loginByUserName().then(res => {
+          loginService.login(params).then(res => {
             if (res.code === "ok") {
               this.loading = false;
-              saveUserInfo(res.result);
+              saveUserInfo(res.result.token);
               this.$router.push({ path: "/" });
+            } else {
+              this.loading = false;
+             this.$message({
+              message: res.message,
+              type: 'error'
+        });
             }
           });
         } else {

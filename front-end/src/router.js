@@ -27,7 +27,7 @@ const router = new Router({
           path: 'collapse',
           name: 'collapse',
           component: () => import('@/components/collapse/collapse.vue'),
-          meta: { parentTitle: '首页', title: '折叠面板' }
+          meta: { parentTitle: '首页', title: 'table展示' }
         },
 
         {

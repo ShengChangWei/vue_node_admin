@@ -16,8 +16,8 @@ exports.findAll = callback => {
 /**
  *  获取email
  */
-exports.getByEmail = (email, callback) => {
-  const sqlStr = 'SELECT * FROM `users` WHERE `email`=?'
+exports.getPassword = (email, callback) => {
+  const sqlStr = 'SELECT * FROM `users` WHERE `password`=?'
   db.query(
     sqlStr,
     [email],

@@ -1,197 +1,159 @@
 <template>
-  <div>
-    <p>基础用法</p>
-    <el-collapse v-model="activeNames" @change="handleChange">
-      <el-collapse-item title="一致性 Consistency" name="1">
-        <div>与现实生活一致：与现实生活的流程、逻辑保持一致，遵循用户习惯的语言和概念；</div>
-        <div>在界面中一致：所有的元素和结构需保持一致，比如：设计样式、图标和文本、元素的位置等。</div>
-      </el-collapse-item>
-      <el-collapse-item title="反馈 Feedback" name="2">
-        <div>控制反馈：通过界面样式和交互动效让用户可以清晰的感知自己的操作；</div>
-        <div>页面反馈：操作后，通过页面元素的变化清晰地展现当前状态。</div>
-      </el-collapse-item>
-      <el-collapse-item title="效率 Efficiency" name="3">
-        <div>简化流程：设计简洁直观的操作流程；</div>
-        <div>清晰明确：语言表达清晰且表意明确，让用户快速理解进而作出决策；</div>
-        <div>帮助用户识别：界面简单直白，让用户快速识别而非回忆，减少用户记忆负担。</div>
-      </el-collapse-item>
-      <el-collapse-item title="可控 Controllability" name="4">
-        <div>用户决策：根据场景可给予用户操作建议或安全提示，但不能代替用户进行决策；</div>
-        <div>结果可控：用户可以自由的进行操作，包括撤销、回退和终止当前操作等。</div>
-      </el-collapse-item>
-    </el-collapse>
-    <p>自定义面板</p>
-    <el-collapse accordion>
-      <el-collapse-item>
-        <template slot="title">
-          一致性 Consistency
-          <i class="header-icon el-icon-info"></i>
-        </template>
-        <div>与现实生活一致：与现实生活的流程、逻辑保持一致，遵循用户习惯的语言和概念；</div>
-        <div>在界面中一致：所有的元素和结构需保持一致，比如：设计样式、图标和文本、元素的位置等。</div>
-      </el-collapse-item>
-      <el-collapse-item title="反馈 Feedback">
-        <div>控制反馈：通过界面样式和交互动效让用户可以清晰的感知自己的操作；</div>
-        <div>页面反馈：操作后，通过页面元素的变化清晰地展现当前状态。</div>
-      </el-collapse-item>
-      <el-collapse-item title="效率 Efficiency">
-        <div>简化流程：设计简洁直观的操作流程；</div>
-        <div>清晰明确：语言表达清晰且表意明确，让用户快速理解进而作出决策；</div>
-        <div>帮助用户识别：界面简单直白，让用户快速识别而非回忆，减少用户记忆负担。</div>
-      </el-collapse-item>
-      <el-collapse-item title="可控 Controllability">
-        <div>用户决策：根据场景可给予用户操作建议或安全提示，但不能代替用户进行决策；</div>
-        <div>结果可控：用户可以自由的进行操作，包括撤销、回退和终止当前操作等。</div>
-      </el-collapse-item>
-    </el-collapse>
-  </div>
 
+<div class="table">
+  <el-button type="primary" size="medium" @click="add">添加</el-button>
+  <el-table
+    :data="tableData"
+    style="width: 100%">
+    <el-table-column
+      label="时间"
+      width="280">
+      <template slot-scope="scope">
+        <i class="el-icon-time"></i>
+        <span style="margin-left: 10px">{{ scope.row.createdAt }}</span>
+      </template>
+    </el-table-column>
+    <el-table-column
+      label="标题"
+      width="180">
+      <template slot-scope="scope">
+        <span>{{ scope.row.title }}</span>
+      </template>
+    </el-table-column>
+      <el-table-column
+      label="内容"
+      width="280">
+      <template slot-scope="scope">
+      <span>{{scope.row.content}}</span>
+      </template>
+    </el-table-column>
+    <el-table-column label="操作">
+      <template slot-scope="scope">
+        <el-button
+          size="mini"
+          @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+        <el-button
+          size="mini"
+          type="danger"
+          @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+      </template>
+    </el-table-column>
+  </el-table>
+
+<!--添加-->
+
+<el-dialog title="添加/编辑数据" :visible.sync="dialogFormVisible">
+  <el-form :label-position="labelPosition" label-width="80px">
+  <el-form-item label="标题">
+    <el-input v-model="form.title"></el-input>
+  </el-form-item>
+  <el-form-item label="内容">
+    <el-input v-model="form.content"></el-input>
+  </el-form-item>
+</el-form>
+  <div slot="footer" class="dialog-footer">
+    <el-button @click="dialogFormVisible = false">取 消</el-button>
+    <el-button type="primary" @click="saveForm">确 定</el-button>
+  </div>
+</el-dialog>
+
+</div>
 </template>
 
 <script>
+import tabeService from "@/api/table";
 export default {
   name: "table",
   data() {
-    return {
-      tableData3: [
-        {
-          date: "2016-05-03",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
+      return {
+        tableData: [],
+        dialogFormVisible: false,
+        labelPosition: 'right',
+        form: {
+          title: '',
+          content: '',
         },
-        {
-          date: "2016-05-02",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
-        },
-        {
-          date: "2016-05-04",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
-        },
-        {
-          date: "2016-05-01",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
-        },
-        {
-          date: "2016-05-08",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
-        },
-        {
-          date: "2016-05-06",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
-        },
-        {
-          date: "2016-05-07",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
-        },
-        {
-          date: "2016-05-01",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
-        },
-        {
-          date: "2016-05-08",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
-        },
-        {
-          date: "2016-05-06",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
-        },
-        {
-          date: "2016-05-07",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
-        },
-        {
-          date: "2016-05-01",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
-        },
-        {
-          date: "2016-05-08",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
-        },
-        {
-          date: "2016-05-06",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
-        },
-        {
-          date: "2016-05-07",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
-        },
-        {
-          date: "2016-05-01",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
-        },
-        {
-          date: "2016-05-08",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
-        },
-        {
-          date: "2016-05-06",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
-        },
-        {
-          date: "2016-05-07",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
-        },
-        {
-          date: "2016-05-01",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
-        },
-        {
-          date: "2016-05-08",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
-        },
-        {
-          date: "2016-05-06",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
-        },
-        {
-          date: "2016-05-07",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
-        },
-        {
-          date: "2016-05-01",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
-        },
-        {
-          date: "2016-05-08",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
-        },
-        {
-          date: "2016-05-06",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
-        },
-        {
-          date: "2016-05-07",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 cdc 弄"
+        isAdd: 0, //0是添加 1是编辑
+      }
+    },
+    created() {
+      this.finadAllInfo();
+    },
+    methods: {
+      add() {
+        this.isAdd = 0;
+        this.dialogFormVisible = true;
+        this.form = {
+           title: '',
+          content: ''
         }
-      ]
-    };
-  }
+      },
+      finadAllInfo() {
+        tabeService.finadAllInfo().then(res => {
+          if(res.code === 'ok') {
+            this.tableData = res.result;
+          } 
+        })
+      },
+      saveForm() {
+        this.dialogFormVisible = false;
+        let fn;
+        if(this.isAdd === 0) { // 添加
+          fn = tabeService.addTable(this.form)
+        } else {// 删除
+          fn = tabeService.editTableById(this.form.id,{title: this.form.title, content: this.form.content})
+        }
+        fn.then(res => {
+          if(res.code == 'ok') {
+                this.$message({
+                message: res.message,
+                type: 'success'
+               });
+             this.finadAllInfo();
+          }else {
+              this.$message({
+                message: res.message,
+                type: 'error'
+          });
+          }
+        })
+      },
+      handleEdit(index, row) {
+        this.dialogFormVisible = true;
+        this.isAdd = 1;
+        this.form = JSON.parse(JSON.stringify(row));
+      },
+      handleDelete(index, row) {
+         this.$confirm('此操作将永久删除该内容, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          tabeService.deleteTableByeId(row.id).then(res => {
+            if(res.code === 'ok') {
+              this.$message({
+                  type: 'success',
+                  message: res.message
+              });
+              this.finadAllInfo();
+            }
+          })
+          
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });          
+        });
+      }
+    }
 };
 </script>
+
+<style lang="scss" scoped>
+.table {
+  padding: 10px;
+}
+</style>
+
 
