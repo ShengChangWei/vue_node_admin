@@ -5,11 +5,11 @@
 ### 1.1 需要本地安装mysql
 
 ```shell
-    运行vue_node.sql文件，如果导入不成功,根据vue_node.sql新建表
-    在user数据表中添加一条数据作为登录用户
-    username: admin
-    password: 202cb962ac59075b964b07152d234b70
-    其他字段随意填
+运行vue_node.sql文件，如果导入不成功,根据vue_node.sql新建表
+在user数据表中添加一条数据作为登录用户
+username: admin
+password: 202cb962ac59075b964b07152d234b70
+其他字段随意填
 ```
 ### 1.2 修改db-helper.js文件
 
