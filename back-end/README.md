@@ -7,6 +7,20 @@
 ```shell
     运行vue_node.sql文件，如果导入不成功,根据vue_node.sql新建表
 ```
+### 1.1 修改db-helper.js文件
+
+```javascript
+const mysql = require('mysql');
+const connection = mysql.createConnection({
+  host: 'localhost', // 要连接的主机名
+  user: 'root', // 要连接的数据库的用户名
+  password: '123', // 数据库密码
+  database: 'vue_node' // 数据库
+});
+
+module.exports = connection
+```
+
 ```
     cd back-end
     node app.js
