@@ -24,7 +24,7 @@ exports.login =(req,res)=> {
       return res.send({code: "0", message: '用户名错误'}) 
   }
 
-   return res.send({code: "ok", message: '登录成功', result: {token: user.nickname+user.createdAt}}) 
+   return res.send({code: "ok", message: '登录成功', result: {token: user.username+user.createdAt}}) 
    
   })
 }
